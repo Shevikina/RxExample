@@ -20,6 +20,7 @@ import com.example.rxexample.data.ProductService
 import com.example.rxexample.data.data_source.MocSource
 import com.example.rxexample.domain.models.Product
 import com.example.rxexample.ui.theme.RxExampleTheme
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
@@ -37,10 +38,10 @@ class MainActivity : ComponentActivity() {
                     ProductScreen(
                         modifier = Modifier.padding(innerPadding),
                         onClickButton = { id, onSuccess, onError ->
-                                .observeOn(Schedulers.computation())
                             disposable.add(
                                 service.getProductsByCategory(id)
                                     .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(
                                         { onSuccess(it) },
                                         { error -> onError(error.message) }
