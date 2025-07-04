@@ -16,7 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.rxexample.data.ProductService
+import com.example.rxexample.data.usecases.ProductUseCase
 import com.example.rxexample.data.data_source.MocSource
 import com.example.rxexample.domain.models.Product
 import com.example.rxexample.ui.theme.RxExampleTheme
@@ -25,7 +25,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class MainActivity : ComponentActivity() {
-    private val service by lazy { ProductService() }
+    private val productUseCase by lazy { ProductUseCase() }
 
     private val disposable = CompositeDisposable()
 
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         onClickButton = { id, onSuccess, onError ->
                             disposable.add(
-                                service.getProductsByCategory(id)
+                                productUseCase.getProductsByCategory(id)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(

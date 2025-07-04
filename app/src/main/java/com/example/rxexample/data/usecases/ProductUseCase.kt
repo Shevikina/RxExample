@@ -1,4 +1,4 @@
-package com.example.rxexample.data
+package com.example.rxexample.data.usecases
 
 import com.example.rxexample.data.repositories.CategoryRepositoryImpl
 import com.example.rxexample.data.repositories.ProductRepositoryImpl
@@ -7,7 +7,7 @@ import com.example.rxexample.domain.repositories.CategoryRepository
 import com.example.rxexample.domain.repositories.ProductRepository
 import io.reactivex.Single
 
-class ProductService(
+class ProductUseCase(
     private val categoryRepo: CategoryRepository = CategoryRepositoryImpl(),
     private val productRepo: ProductRepository = ProductRepositoryImpl()
 ) {
