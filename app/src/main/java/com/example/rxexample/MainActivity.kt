@@ -20,10 +20,13 @@ import com.example.rxexample.data.ProductService
 import com.example.rxexample.data.data_source.MocSource
 import com.example.rxexample.domain.models.Product
 import com.example.rxexample.ui.theme.RxExampleTheme
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class MainActivity : ComponentActivity() {
     private val service by lazy { ProductService() }
+
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +37,25 @@ class MainActivity : ComponentActivity() {
                     ProductScreen(
                         modifier = Modifier.padding(innerPadding),
                         onClickButton = { id, onSuccess, onError ->
-                            service.getProductsByCategory(id)
                                 .observeOn(Schedulers.computation())
-                                .subscribe(
-                                    { onSuccess(it) },
-                                    { error -> onError(error.message) }
-                                )
+                            disposable.add(
+                                service.getProductsByCategory(id)
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe(
+                                        { onSuccess(it) },
+                                        { error -> onError(error.message) }
+                                    )
+                            )
                         }
                     )
                 }
             }
         }
+    }
+
+    override fun onDestroy(){
+        disposable.clear()
+        super.onDestroy()
     }
 }
 
