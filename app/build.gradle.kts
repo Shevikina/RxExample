@@ -61,4 +61,8 @@ dependencies {
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
 //  endregion
+
+//  region LiveData
+    implementation(libs.androidx.runtime.livedata)
+//  endregion
 }
