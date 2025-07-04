@@ -57,7 +57,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-//  region RXJava
+//  region RX
     implementation(libs.rxjava)
+    implementation(libs.rxandroid)
 //  endregion
 }
