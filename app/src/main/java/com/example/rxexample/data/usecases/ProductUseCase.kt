@@ -6,6 +6,7 @@ import com.example.rxexample.domain.models.Product
 import com.example.rxexample.domain.repositories.CategoryRepository
 import com.example.rxexample.domain.repositories.ProductRepository
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class ProductUseCase(
     private val categoryRepo: CategoryRepository = CategoryRepositoryImpl(),
@@ -16,6 +17,6 @@ class ProductUseCase(
             .flatMap { subcategories ->
                 val subcategoryIds = subcategories.map { it.id }
                 productRepo.getProductsBySubcategoryIds(subcategoryIds)
-            }
+            }.subscribeOn(Schedulers.io())
     }
 }

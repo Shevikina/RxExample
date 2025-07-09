@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.rxexample.data.data_source.MocSource
 import com.example.rxexample.presentation.MainViewModel
@@ -64,8 +65,11 @@ fun ProductScreen(
     var text by remember { mutableStateOf("") }
     uiState.value.apply {
         if (!isLoading) {
-            text = errorMessage ?: if (products.isEmpty()) "Выберите категорию"
-            else products.map { it.name }.toString()
+            text = when {
+                errorMessage != null -> errorMessage
+                products.isEmpty() -> stringResource(R.string.select_category)
+                else -> products.map { it.name }.toString()
+            }
         }
     }
 

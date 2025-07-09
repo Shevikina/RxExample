@@ -7,7 +7,6 @@ import com.example.rxexample.data.usecases.ProductUseCase
 import com.example.rxexample.domain.models.Product
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class MainViewModel : ViewModel() {
     private val disposable = CompositeDisposable()
@@ -28,7 +27,7 @@ class MainViewModel : ViewModel() {
         startLoad()
 
         disposable.add(
-            productUseCase.getProductsByCategory(id).subscribeOn(Schedulers.io())
+            productUseCase.getProductsByCategory(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ onSuccess(it) }, { error -> onError(error.message) })
         )
